@@ -4,16 +4,13 @@ import (
 	"embed"
 	"encoding/json"
 	"fmt"
+	"github.com/getkin/kin-openapi/openapi3"
+	"github.com/google/go-cmp/cmp"
+	"gopkg.in/yaml.v2"
 	"net/http"
 	"sync"
 	"testing"
 	"time"
-
-	_ "embed"
-
-	"github.com/getkin/kin-openapi/openapi3"
-	"github.com/google/go-cmp/cmp"
-	"gopkg.in/yaml.v2"
 )
 
 //go:embed tests/*
