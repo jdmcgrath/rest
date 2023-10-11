@@ -5,8 +5,8 @@ import (
 	"net/url"
 	"strings"
 
-	"github.com/a-h/rest"
 	"github.com/go-chi/chi/v5"
+	"github.com/jdmcgrath/rest"
 )
 
 func Merge(target *rest.API, src chi.Router) error {

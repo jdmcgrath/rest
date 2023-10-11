@@ -1,6 +1,6 @@
-module github.com/a-h/rest
+module github.com/jdmcgrath/rest
 
-go 1.21
+go 1.21.1
 
 require (
 	github.com/getkin/kin-openapi v0.114.0
