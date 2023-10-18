@@ -1,4 +1,4 @@
-module github.com/jdmcgrath/rest
+module github.com/a-h/rest
 
 go 1.21.1
 
