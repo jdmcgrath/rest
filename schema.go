@@ -3,9 +3,9 @@ package rest
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/a-h/rest/enums"
-	"github.com/a-h/rest/getcomments/parser"
 	"github.com/getkin/kin-openapi/openapi3"
+	"github.com/jdmcgrath/rest/enums"
+	"github.com/jdmcgrath/rest/getcomments/parser"
 	"golang.org/x/exp/constraints"
 	"reflect"
 	"slices"
