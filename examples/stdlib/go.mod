@@ -1,12 +1,12 @@
-module github.com/jdmcgrath/rest/examples/stdlib
+module github.com/a-h/rest/examples/stdlib
 
-go 1.21.1
+go 1.19
 
-replace github.com/jdmcgrath/rest v0.0.0 => ../../
+replace github.com/a-h/rest v0.0.0 => ../../
 
 require (
 	github.com/a-h/respond v0.0.2
-	github.com/jdmcgrath/rest v0.0.0
+	github.com/a-h/rest v0.0.0
 	github.com/getkin/kin-openapi v0.114.0
 )
 

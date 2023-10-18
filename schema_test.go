@@ -331,7 +331,7 @@ func TestSchema(t *testing.T) {
 				defer wg.Done()
 				// Create the API.
 				api := NewAPI(test.name)
-				api.StripPkgPaths = []string{"github.com/jdmcgrath/rest"}
+				api.StripPkgPaths = []string{"github.com/a-h/rest"}
 				// Configure it.
 				test.setup(api)
 				// Create the actual spec.

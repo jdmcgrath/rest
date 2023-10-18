@@ -2,16 +2,16 @@ package main
 
 import (
 	"fmt"
-	"github.com/jdmcgrath/rest/swaggerui"
 	"log"
 	"net/http"
 
 	"github.com/a-h/respond"
+	"github.com/a-h/rest"
+	"github.com/a-h/rest/chiadapter"
+	"github.com/a-h/rest/examples/chiexample/models"
+	"github.com/a-h/rest/swaggerui"
 	"github.com/getkin/kin-openapi/openapi3"
 	"github.com/go-chi/chi/v5"
-	"github.com/jdmcgrath/rest"
-	"github.com/jdmcgrath/rest/chiadapter"
-	"github.com/jdmcgrath/rest/examples/chiexample/models"
 )
 
 func main() {
@@ -59,7 +59,7 @@ func main() {
 
 	// Because this example is all in the main package, we can strip the `main_` namespace from
 	// the types.
-	api.StripPkgPaths = []string{"main", "github.com/jdmcgrath"}
+	api.StripPkgPaths = []string{"main", "github.com/a-h"}
 
 	// It's possible to customise the OpenAPI schema for each type.
 	api.RegisterModel(rest.ModelOf[respond.Error](), rest.WithDescription("Standard JSON error"), func(s *openapi3.Schema) {
