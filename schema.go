@@ -56,7 +56,7 @@ func newPrimitiveSchema(paramType PrimitiveType) *openapi3.Schema {
 		return openapi3.NewStringSchema()
 	default:
 		return &openapi3.Schema{
-			Type: string(paramType),
+			Type: &openapi3.Types{string(paramType)},
 		}
 	}
 }
@@ -212,9 +212,9 @@ func WithEnumValues[T ~string | constraints.Integer](values ...T) ModelOpts {
 		if len(values) == 0 {
 			return
 		}
-		s.Type = openapi3.TypeString
+		s.Type = &openapi3.Types{openapi3.TypeString}
 		if reflect.TypeOf(values[0]).Kind() != reflect.String {
-			s.Type = openapi3.TypeInteger
+			s.Type = &openapi3.Types{openapi3.TypeInteger}
 		}
 		for _, v := range values {
 			s.Enum = append(s.Enum, v)
@@ -227,9 +227,9 @@ func WithEnumConstants[T ~string | constraints.Integer]() ModelOpts {
 	return func(s *openapi3.Schema) {
 		var t T
 		ty := reflect.TypeOf(t)
-		s.Type = openapi3.TypeString
+		s.Type = &openapi3.Types{openapi3.TypeString}
 		if ty.Kind() != reflect.String {
-			s.Type = openapi3.TypeInteger
+			s.Type = &openapi3.Types{openapi3.TypeInteger}
 		}
 		enum, err := enums.Get(ty)
 		if err != nil {
@@ -404,34 +404,34 @@ func parseDescriptionAndExampleFromComments(description string) (strippedDescrip
 	return
 }
 
-func formatExample(example, fieldName, typeName string, schemaType string) (interface{}, error) {
+func formatExample(example, fieldName, typeName string, schemaType *openapi3.Types) (interface{}, error) {
 	if example == "" {
 		// If example is empty, return nil
 		return nil, nil
 	}
 	// Convert the string comment to the respective type of the schema field
-	switch schemaType {
-	case "string":
+	switch {
+	case schemaType.Is("string"):
 		return example, nil
-	case "integer":
+	case schemaType.Is("integer"):
 		i, err := strconv.Atoi(example)
 		if err != nil {
 			return nil, fmt.Errorf("failed to parse example %q for field %q in type %q: %w", example, fieldName, typeName, err)
 		}
 		return i, nil
-	case "number":
+	case schemaType.Is("number"):
 		f, err := strconv.ParseFloat(example, 64)
 		if err != nil {
 			return nil, fmt.Errorf("failed to parse example %q for field %q in type %q: %w", example, fieldName, typeName, err)
 		}
 		return f, nil
-	case "boolean":
+	case schemaType.Is("boolean"):
 		b, err := strconv.ParseBool(example)
 		if err != nil {
 			return nil, fmt.Errorf("failed to parse example %q for field %q in type %q: %w", example, fieldName, typeName, err)
 		}
 		return b, nil
-	case "array":
+	case schemaType.Is("array"):
 		var array []interface{}
 		err := json.Unmarshal([]byte(example), &array)
 		if err != nil {
@@ -477,7 +477,7 @@ func (api *API) getTypeFieldComment(pkg string, name string, field string) (comm
 }
 
 func shouldBeReferenced(schema *openapi3.Schema) bool {
-	if schema.Type == openapi3.TypeObject && schema.AdditionalProperties.Schema == nil {
+	if schema.Type.Is(openapi3.TypeObject) && schema.AdditionalProperties.Schema == nil {
 		return true
 	}
 	if len(schema.Enum) > 0 {
